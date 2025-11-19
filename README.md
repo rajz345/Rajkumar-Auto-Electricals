@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rajkumar Auto Electricals - Official Website
 
-## Getting Started
+Official website for Rajkumar Auto Electricals, an authorized Exide Battery dealer in Balangir, Odisha.
 
-First, run the development server:
+## 🚀 Features
+
+- **Modern Design**: Responsive website with Exide brand colors (Red, White, Grey)
+- **Product Catalog**: Browse batteries for Bikes, Cars, and Heavy Duty vehicles
+- **Warranty Checker**: Check warranty status using battery serial number
+- **Admin Dashboard**: Manage products and warranty records
+- **Service Information**: Details about battery installation and services
+- **Contact Page**: Google Maps integration and contact information
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **Database**: SQLite with Prisma ORM
+- **Styling**: Vanilla CSS
+- **Language**: TypeScript
+
+## 📋 Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
+
+## 🔧 Installation
 
 ```bash
+# Clone the repository
+git clone <your-repo-url>
+cd "Rajkumar Auto Electricals"
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+echo 'DATABASE_URL="file:./dev.db"' > .env
+
+# Run database migrations
+npx prisma migrate dev
+
+# Generate Prisma client
+npx prisma generate
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit http://localhost:3000 to view the website.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔐 Admin Access
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**URL**: http://localhost:3000/admin/login
 
-## Learn More
+**Credentials**:
+- Username: `admin`
+- Password: `admin123`
 
-To learn more about Next.js, take a look at the following resources:
+> ⚠️ **Security Note**: Change these default credentials in production!
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📁 Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+├── app/                    # Next.js app directory
+│   ├── admin/             # Admin panel pages
+│   ├── api/               # API routes
+│   ├── components/        # Reusable components
+│   ├── products/          # Products page
+│   ├── services/          # Services page
+│   ├── warranty/          # Warranty checker
+│   └── contact/           # Contact page
+├── prisma/                # Database schema and migrations
+├── lib/                   # Utility functions
+└── public/                # Static assets
 
-## Deploy on Vercel
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## ⚠️ Known Issues
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Prisma v7 Compatibility
+The Products page currently has compatibility issues with Prisma v7. 
+
+**Workaround**: Downgrade to Prisma v6
+```bash
+npm install prisma@6 @prisma/client@6
+npx prisma generate
+```
+
+## 🎯 Features Status
+
+✅ Home Page  
+✅ Services Page  
+✅ Contact Page with Google Maps  
+✅ Warranty Checker  
+✅ Admin Authentication  
+✅ Admin Dashboard  
+⚠️ Products Page (Prisma v7 issue)
+
+## 📞 Contact
+
+**Rajkumar Auto Electricals**  
+Near Ramai Talkies, Balangir, Odisha  
+Phone: +91 98765 43210  
+Email: info@rajkumarauto.com
+
+## 📄 License
+
+This project is proprietary software for Rajkumar Auto Electricals.
+
+---
+
+Built with ❤️ for Rajkumar Auto Electricals
