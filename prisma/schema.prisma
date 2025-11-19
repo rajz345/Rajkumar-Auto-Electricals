@@ -1,0 +1,35 @@
+datasource db {
+  provider = "sqlite"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  category    String
+  price       Float
+  image       String
+  description String?
+  stock       Int      @default(0)
+  availableOn DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Warranty {
+  id             Int      @id @default(autoincrement())
+  customerName   String
+  batteryId      String   // Serial Number or unique ID
+  saleDate       DateTime
+  durationMonths Int
+  createdAt      DateTime @default(now())
+}
+
+model Admin {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  passwordHash String
+}
