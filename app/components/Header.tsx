@@ -18,6 +18,7 @@ export default function Header() {
             <li><Link href="/services">Services</Link></li>
             <li><Link href="/warranty">Warranty Check</Link></li>
             <li><Link href="/contact">Contact Us</Link></li>
+            <li><Link href="/admin/login">Admin</Link></li>
           </ul>
         </nav>
       </div>

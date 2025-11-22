@@ -33,10 +33,6 @@ export default function ProductCard({ product }: ProductCardProps) {
             <span>In Stock</span>
           )}
         </div>
-
-        <button className="btn btn-outline mt-1 w-full" disabled={isOutOfStock}>
-          {isOutOfStock ? 'Notify Me' : 'Add to Cart'}
-        </button>
       </div>
 
       <style jsx>{`
@@ -55,8 +51,15 @@ export default function ProductCard({ product }: ProductCardProps) {
         .image-container {
           position: relative;
           height: 200px;
+          width: 100%;
           background: #f9f9f9;
           padding: 1rem;
+          overflow: hidden;
+        }
+        .image-container :global(img) {
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: contain !important;
         }
         .content {
           padding: 1.5rem;
@@ -75,6 +78,8 @@ export default function ProductCard({ product }: ProductCardProps) {
           font-size: 1.2rem;
           margin-bottom: 0.5rem;
           color: var(--text-dark);
+          background: none;
+          -webkit-text-fill-color: var(--text-dark);
         }
         .price {
           font-size: 1.25rem;

@@ -10,7 +10,7 @@ interface ProductsClientProps {
 }
 
 export default function ProductsClient({ products, category }: ProductsClientProps) {
-    const categories = ['Bike', 'Car', 'Heavy Duty'];
+    const categories = ['Bike', 'Car', 'Heavy Duty', 'Inverters', 'Inverter Batteries'];
 
     return (
         <div className="products-page">

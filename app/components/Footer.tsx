@@ -19,13 +19,14 @@ export default function Footer() {
               <li><Link href="/services">Services</Link></li>
               <li><Link href="/warranty">Warranty Check</Link></li>
               <li><Link href="/contact">Contact</Link></li>
+              <li><Link href="/admin/login">Admin</Link></li>
             </ul>
           </div>
           <div className="footer-col">
             <h4>Contact</h4>
             <p>Near Ramai Talkies, Balangir</p>
-            <p>Phone: +91 98765 43210</p>
-            <p>Email: info@rajkumarauto.com</p>
+            <p>Phone: +91-7077717401</p>
+            <p>Email: rajkumarautoelectric@gmail.com</p>
           </div>
         </div>
         <div className="footer-bottom text-center">
@@ -48,10 +49,14 @@ export default function Footer() {
         .footer-col h3 {
           color: var(--primary-red);
           margin-bottom: 1rem;
+          background: none;
+          -webkit-text-fill-color: var(--primary-red);
         }
         .footer-col h4 {
           margin-bottom: 1rem;
           color: #fff;
+          background: none;
+          -webkit-text-fill-color: #fff;
         }
         .footer-col ul li {
           margin-bottom: 0.5rem;

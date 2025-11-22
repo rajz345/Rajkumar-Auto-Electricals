@@ -22,12 +22,11 @@ export default function Contact() {
             </div>
             <div className="info-item">
               <h3>Phone</h3>
-              <p>+91 98765 43210</p>
-              <p>+91 12345 67890</p>
+              <p>+91-7077717401</p>
             </div>
             <div className="info-item">
               <h3>Email</h3>
-              <p>info@rajkumarauto.com</p>
+              <p>rajkumarautoelectric@gmail.com</p>
             </div>
             <div className="info-item">
               <h3>Opening Hours</h3>

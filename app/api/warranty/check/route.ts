@@ -4,12 +4,16 @@ import { prisma } from '@/lib/prisma';
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { query } = body; // Can be batteryId or saleDate (though saleDate is not unique, usually Serial Number)
+        const { saleDate } = body;
 
-        // We assume query is the Battery ID (Serial Number)
+        if (!saleDate) {
+            return NextResponse.json({ error: 'Sale date is required' }, { status: 400 });
+        }
+
+        // Search for warranty by sale date
         const warranty = await prisma.warranty.findFirst({
             where: {
-                batteryId: query,
+                saleDate: new Date(saleDate),
             },
         });
 
@@ -17,8 +21,8 @@ export async function POST(request: Request) {
             return NextResponse.json({ found: false, message: 'Warranty not found' });
         }
 
-        const saleDate = new Date(warranty.saleDate);
-        const expiryDate = new Date(saleDate);
+        const saleDateObj = new Date(warranty.saleDate);
+        const expiryDate = new Date(saleDateObj);
         expiryDate.setMonth(expiryDate.getMonth() + warranty.durationMonths);
 
         const now = new Date();
@@ -28,6 +32,7 @@ export async function POST(request: Request) {
             found: true,
             isValid,
             customerName: warranty.customerName,
+            batteryId: warranty.batteryId,
             saleDate: warranty.saleDate,
             expiryDate: expiryDate,
             durationMonths: warranty.durationMonths,

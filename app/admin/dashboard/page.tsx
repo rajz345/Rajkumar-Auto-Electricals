@@ -194,6 +194,8 @@ export default function AdminDashboard() {
                                                 <option>Bike</option>
                                                 <option>Car</option>
                                                 <option>Heavy Duty</option>
+                                                <option>Inverters</option>
+                                                <option>Inverter Batteries</option>
                                             </select>
                                         </div>
                                     </div>
