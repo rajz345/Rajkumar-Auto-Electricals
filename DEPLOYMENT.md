@@ -1,135 +1,216 @@
-# Deployment Guide - Rajkumar Auto Electricals
+# PostgreSQL + Vercel Deployment Guide
 
-## Platform: Vercel + Turso Database
+## 🎯 Quick Start
 
-This guide will walk you through deploying your website to Vercel with Turso as the database.
+Your application is now configured for PostgreSQL and ready to deploy to Vercel!
 
-## Step 1: Set Up Turso Database
+## Step 1: Create Vercel Account & Install CLI
 
-### Install Turso CLI
 ```bash
-curl -sSfL https://get.tur.so/install.sh | bash
-```
+# Install Vercel CLI
+npm install -g vercel
 
-### Create a Turso Account and Database
-```bash
-# Sign up/login to Turso
-turso auth signup
-# or if you already have an account
-turso auth login
-
-# Create a new database
-turso db create rajkumar-auto-electricals
-
-# Get your database URL
-turso db show rajkumar-auto-electricals --url
-
-# Create an auth token
-turso db tokens create rajkumar-auto-electricals
-```
-
-### Update Local Environment
-Copy the database URL and auth token, then update your local `.env` file:
-```env
-DATABASE_URL="libsql://[your-database-url].turso.io"
-DATABASE_AUTH_TOKEN="your-auth-token-here"
-```
-
-### Migrate Database Schema
-```bash
-npx prisma db push
-```
-
-### Seed Production Database
-```bash
-npx tsx prisma/seed.ts
-```
-
-## Step 2: Deploy to Vercel
-
-### Install Vercel CLI
-```bash
-npm i -g vercel
-```
-
-### Login to Vercel
-```bash
+# Login to Vercel
 vercel login
 ```
 
-### Deploy the Project
+## Step 2: Create PostgreSQL Database on Vercel
+
+### Option A: Using Vercel Dashboard (Recommended)
+
+1. Go to https://vercel.com/dashboard
+2. Click "Storage" → "Create Database"
+3. Select "Postgres"
+4. Choose a name: `rajkumar-auto-db`
+5. Select region closest to your users
+6. Click "Create"
+7. Copy the `DATABASE_URL` (it will be automatically added to your project)
+
+### Option B: Using Vercel CLI
+
 ```bash
-# First deployment (preview)
+vercel postgres create rajkumar-auto-db
+```
+
+## Step 3: Deploy to Vercel
+
+```bash
+# Navigate to project directory
+cd "/home/raj/Rajkumar Auto Electricals"
+
+# Deploy (first time)
 vercel
 
-# After testing, deploy to production
+# Follow the prompts:
+# - Set up and deploy? Yes
+# - Which scope? [Your account]
+# - Link to existing project? No
+# - Project name? rajkumar-auto-electricals
+# - Directory? ./
+# - Override settings? No
+```
+
+## Step 4: Link Database to Project
+
+In Vercel Dashboard:
+1. Go to your project
+2. Settings → Environment Variables
+3. The `DATABASE_URL` should already be set (from Step 2)
+4. If not, add it manually from your Postgres database settings
+
+## Step 5: Run Database Migrations
+
+After deployment, run migrations:
+
+```bash
+# Using Vercel CLI
+vercel env pull .env.local
+npx prisma migrate deploy
+
+# Or use Vercel's built-in migration support
+# Add to package.json scripts:
+# "vercel-build": "prisma migrate deploy && next build"
+```
+
+## Step 6: Seed Production Database
+
+```bash
+# Pull production environment variables
+vercel env pull .env.production
+
+# Run seed script
+npx tsx prisma/seed.ts
+```
+
+## Step 7: Deploy to Production
+
+```bash
 vercel --prod
 ```
 
-### Set Environment Variables in Vercel
+Your site will be live at: `https://rajkumar-auto-electricals.vercel.app`
 
-During the deployment, Vercel will ask about environment variables. Set:
-- `DATABASE_URL` - Your Turso database URL
-- `DATABASE_AUTH_TOKEN` - Your Turso auth token
+## Alternative: Use Other PostgreSQL Providers
 
-Or set them manually in the Vercel dashboard:
-1. Go to your project settings
-2. Navigate to "Environment Variables"
-3. Add both variables for Production, Preview, and Development
+### Supabase
 
-## Step 3: Verify Deployment
+1. Create account at https://supabase.com
+2. Create new project
+3. Get connection string from Settings → Database
+4. Add to Vercel environment variables:
+   ```
+   DATABASE_URL="postgresql://postgres:[password]@[host]:5432/postgres?sslmode=require"
+   ```
 
-After deployment, Vercel will provide a URL. Visit it and test:
+### Neon
+
+1. Create account at https://neon.tech
+2. Create new project
+3. Copy connection string
+4. Add to Vercel environment variables
+
+### Railway
+
+1. Create account at https://railway.app
+2. Create PostgreSQL database
+3. Copy connection string
+4. Add to Vercel environment variables
+
+## Verification Checklist
+
+After deployment, verify:
+
 - [ ] Homepage loads with Exide logo
-- [ ] Products page displays items
-- [ ] Warranty check works
+- [ ] Products page displays items from database
+- [ ] Admin login works (admin/admin123)
+- [ ] Warranty checker functions
 - [ ] Contact page loads
-- [ ] Admin login works
+- [ ] All navigation links work
 
 ## Troubleshooting
 
-### Database Connection Issues
-- Verify `DATABASE_URL` and `DATABASE_AUTH_TOKEN` are set correctly in Vercel
-- Check Turso database is active: `turso db list`
+### Database Connection Errors
 
-### Build Failures
-- Check build logs in Vercel dashboard
+**Error:** `Can't reach database server`
+- Check `DATABASE_URL` is set correctly in Vercel
+- Ensure database is running
+- Verify SSL mode is correct (`?sslmode=require` for most providers)
+
+### Migration Errors
+
+**Error:** `Migration failed`
+- Run `npx prisma migrate reset` locally
+- Then `npx prisma migrate deploy` in production
+
+### Build Errors
+
+**Error:** `Module not found: @prisma/adapter-pg`
 - Ensure all dependencies are in `package.json`
-- Verify `npm run build` works locally
+- Run `npm install` locally
+- Redeploy
 
-### Missing Data
-- Re-run seed script: `npx tsx prisma/seed.ts`
-- Check database has data: `turso db shell rajkumar-auto-electricals`
+## Environment Variables
+
+Required in Vercel:
+
+```env
+DATABASE_URL="postgresql://user:password@host:port/database?sslmode=require"
+NODE_ENV="production"
+```
 
 ## Useful Commands
 
 ```bash
-# View Turso databases
-turso db list
-
-# Access database shell
-turso db shell rajkumar-auto-electricals
-
-# View Vercel deployments
+# View deployments
 vercel ls
 
-# View deployment logs
-vercel logs [deployment-url]
+# View logs
+vercel logs
+
+# Pull environment variables
+vercel env pull
+
+# Run migrations
+npx prisma migrate deploy
+
+# Seed database
+npx tsx prisma/seed.ts
+
+# Redeploy
+vercel --prod
 ```
 
-## Production URLs
+## Automatic Deployments
 
-After deployment, your site will be available at:
-- Production: `https://[your-project].vercel.app`
-- Custom domain: (can be configured in Vercel dashboard)
+Connect your GitHub repository to Vercel for automatic deployments:
 
-## Updating the Site
+1. Go to Vercel Dashboard → Your Project
+2. Settings → Git
+3. Connect to GitHub repository
+4. Every push to `main` will auto-deploy
 
-To deploy updates:
-```bash
-git add .
-git commit -m "Your update message"
-git push  # If connected to Git
-# or
-vercel --prod  # Direct deployment
-```
+## Custom Domain
+
+Add a custom domain in Vercel Dashboard:
+
+1. Go to your project
+2. Settings → Domains
+3. Add your domain (e.g., `rajkumarauto.com`)
+4. Follow DNS configuration instructions
+
+## Production Checklist
+
+Before going live:
+
+- [ ] Change admin password from default
+- [ ] Add real product data
+- [ ] Test all features thoroughly
+- [ ] Set up monitoring/analytics
+- [ ] Configure custom domain (optional)
+- [ ] Enable HTTPS (automatic with Vercel)
+
+---
+
+**Estimated deployment time: 15-20 minutes**
+
+Your website will be live and accessible worldwide! 🚀
