@@ -34,7 +34,35 @@ export default function Header() {
         .logo-text {
           font-size: 1.5rem;
           font-weight: 700;
-          color: var(--primary-red);
+          background: linear-gradient(135deg, var(--primary-red) 0%, #ff6b6b 50%, var(--primary-red) 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          background-size: 200% auto;
+          animation: shimmer 3s linear infinite, glow 2s ease-in-out infinite alternate;
+          position: relative;
+          display: inline-block;
+          transition: all 0.3s ease;
+        }
+        .logo-text:hover {
+          transform: scale(1.05);
+          filter: drop-shadow(0 0 10px rgba(227, 30, 36, 0.5));
+        }
+        @keyframes shimmer {
+          0% {
+            background-position: 0% center;
+          }
+          100% {
+            background-position: 200% center;
+          }
+        }
+        @keyframes glow {
+          0% {
+            filter: drop-shadow(0 0 5px rgba(227, 30, 36, 0.3));
+          }
+          100% {
+            filter: drop-shadow(0 0 15px rgba(227, 30, 36, 0.6));
+          }
         }
         .nav ul {
           gap: 2rem;

@@ -17,10 +17,10 @@ export default function Home() {
       <section className="hero">
         <div className="hero-image-container">
           <Image
-            src="/images/hero_banner.png"
-            alt="Rajkumar Auto Electricals Shop"
+            src="/images/exide_logo.png"
+            alt="Exide Logo - Authorized Dealer"
             fill
-            style={{ objectFit: 'cover' }}
+            style={{ objectFit: 'contain' }}
             priority
           />
           <div className="hero-overlay"></div>
@@ -29,10 +29,6 @@ export default function Home() {
         <div className={`container hero-content ${isVisible ? 'animate-fadeInUp' : ''}`}>
           <h1 className="hero-title">Authorized Exide Dealer in Balangir</h1>
           <p className="hero-subtitle">Powering Your Journey with Reliable Batteries & Services.</p>
-          <div className="hero-buttons">
-            <Link href="/products" className="btn btn-primary">View Products</Link>
-            <Link href="/services" className="btn btn-outline-white">Our Services</Link>
-          </div>
         </div>
         {/* Floating particles effect */}
         <div className="particles">
